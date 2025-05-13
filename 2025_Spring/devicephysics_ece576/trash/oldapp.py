@@ -2,7 +2,6 @@ import streamlit as st
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-import pandas as pd
 
 # define helper functions ------
 # BEWARE! sliders require same type for steps/max etc.
@@ -117,16 +116,15 @@ E = V / L
 
 st.sidebar.write(f"Electric field (E): {E:.2f} V/m from V / L")
 
-x0_unconverted = st.sidebar.slider(
+x0 = st.sidebar.slider(
     "Initial position (x0)",
     min_value=0.0,
     max_value=1.0,
-    value=0.1,
+    value=0.2,
     step=0.05,
     help="Offset in percent terms of L (0 to L)",
 )
 
-x0 = x0_unconverted * L
 
 # Defining dependents
 D_n = einsteinRelationReturnD(un, T)
@@ -177,11 +175,11 @@ def p_carrierPropagation(x, t):
     return soln
 
 
+import pandas as pd
+
 # 1) pick grids
-x = np.linspace(0, L, 200)
-t_vals = np.linspace(
-    1e-20, 1e-9, 1000
-)  # 1000 points from 1e-20 to 1e-9, beyond nanosecond phenomena are not intersting
+x = np.linspace(0, L, 200)  # 200 points from 0 to L
+t_vals = np.linspace(1e-9, 1e-4, 100)  #  # Time values from 0 to 1 microsecond
 
 # 2) assemble
 rows = []
@@ -195,7 +193,6 @@ for t in t_vals:
 
 df = pd.DataFrame(rows)
 
-
 # 3) animate
 fig = px.line(
     df,
@@ -204,13 +201,72 @@ fig = px.line(
     color="carrier",
     animation_frame="time",
     range_x=[0, L],
-    range_y=[0, df.conc.max() * 1.1],  # <— this locks your y-axis
     labels={"x": "Distance (m)", "conc": "Conc. (m⁻³)"},
 )
-
-# fig
 st.plotly_chart(fig, use_container_width=True)
 
-# 4) Add dataframe to enjoy the data
-st.dataframe(df, use_container_width=True)
-# st.table(df)
+
+# below was first try--------
+# XXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
+# DEFINE GRAPHING BOUJNDS
+# Define the time and space arrays
+
+
+# x_values = np.geomspace(1.98e-23, 2e-23, 10000)
+# t_values = np.geomspace(1e-9, 1e-4, 10000)  # Time values from 0 to 1 microsecond
+
+# figElectrons = px.line(
+#     x=x_values,
+#     y=n_carrierPropagation(x_values, t_values),
+#     title="Electron Carrier Propagation",
+#     labels={"x": "Distance (m)", "y": "Carrier Concentration (m^-3)"},
+# )
+# figElectrons.update_traces(line_color="red")
+
+# figHoles = px.line(
+#     x=x_values,
+#     y=p_carrierPropagation(x_values, t_values),
+#     title="Hole Carrier Propagation",
+#     labels={"x": "Distance (m)", "y": "Carrier Concentration (m^-3)"},
+# )
+# figHoles.update_traces(line_color="cyan")
+
+
+# # now, actually plot together.
+# # --------------------------------------------
+
+# from plotly.subplots import make_subplots
+
+
+# # Create a subplot figure
+# figTurbo = make_subplots(rows=1, cols=1)
+
+
+# # Add traces from figElectrons
+# for trace in figElectrons.data:
+#     figTurbo.add_trace(trace)
+
+# # Add traces from figHoles
+# for trace in figHoles.data:
+#     figTurbo.add_trace(trace)
+
+# # Update layout
+# figTurbo.update_layout(
+#     title="Carrier Propagation in Semiconductor",
+#     xaxis_title="Distance (m)",
+#     yaxis_title="Carrier Concentration (m^-3)",
+#     #    legend_title_text='Carrier Type',
+#     #    legend=dict(
+#     #        itemsizing='constant',
+#     #        orientation='h',
+#     #        yanchor='bottom',
+#     #        y=1.02,
+#     #        xanchor='right',
+#     #        x=1
+#     #    )
+# )
+
+# # Show the combined figure
+# st.plotly_chart(figTurbo, use_container_width=True)
+
+# st.write("Where electrons are shown in RED and holes in BLUE.")
