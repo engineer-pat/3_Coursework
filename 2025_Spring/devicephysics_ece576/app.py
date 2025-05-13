@@ -195,7 +195,7 @@ figHoles = px.line(
     title="Hole Carrier Propagation",
     labels={"x": "Distance (m)", "y": "Carrier Concentration (m^-3)"},
 )
-figHoles.update_traces(line_color="blue")
+figHoles.update_traces(line_color="cyan")
 
 
 # now, actually plot together.
