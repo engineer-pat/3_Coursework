@@ -101,13 +101,16 @@ V = st.sidebar.slider(
 )
 
 L = st.sidebar.slider(
-    "Length (L)",
+    "Length (L) in m, where 1m = 1e6 μm (appears as 0)",
     min_value=0.1e-6,
     max_value=20e-6,
     value=10e-6,
     step=1e-6,
     help="Units in this app: m",
 )
+
+st.sidebar.write(f"Length (L): {L:.9f} m")
+
 
 E = V / L
 
@@ -200,8 +203,10 @@ figHoles.update_traces(line_color="blue")
 
 from plotly.subplots import make_subplots
 
+
 # Create a subplot figure
 figTurbo = make_subplots(rows=1, cols=1)
+
 
 # Add traces from figElectrons
 for trace in figElectrons.data:
@@ -229,3 +234,5 @@ figTurbo.update_layout(
 
 # Show the combined figure
 st.plotly_chart(figTurbo, use_container_width=True)
+
+st.write("Where electrons are shown in RED and holes in BLUE.")
