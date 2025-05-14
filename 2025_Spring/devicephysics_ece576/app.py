@@ -208,9 +208,75 @@ fig = px.line(
     labels={"x": "Distance (m)", "conc": "Conc. (m⁻³)"},
 )
 
+
+def J_current(x, t):
+    """
+    Calculate the current density using the Einstein relation.
+    J = q * (n * vn + p * vp)
+    where:
+    - J is the current density
+    - q is charge of an electron (1.6e-19 C)
+    - n is electron concentration
+    - p is hole concentration
+    """
+    n_conc = n_carrierPropagation(x, t)
+    p_conc = p_carrierPropagation(x, t)
+    JChunk1 = 1.6e-19 * (n_conc * vn + p_conc * vp) * E
+    derivnChunk1 = (
+        Po * n / (hv) * np.exp((-1 * t) / tau_n) * np.sqrt(1 / (4 * np.pi * D_n * t))
+    )
+    derivnChunk2 = ((x - x0) + vn * t) / (2 * D_n * t)
+    derivnChunk3 = np.exp(-1 * ((x - x0) + vn * t) ** 2 / (4 * D_n * t))
+    derivn = derivnChunk1 * derivnChunk2 * derivnChunk3
+    derivpChunk1 = (
+        Po * n / (hv) * np.exp((-1 * t) / tau_p) * np.sqrt(1 / (4 * np.pi * D_p * t))
+    )
+    derivpChunk2 = ((x - x0) - vp * t) / (2 * D_p * t)
+    derivpChunk3 = np.exp(-1 * ((x - x0) - vp * t) ** 2 / (4 * D_p * t))
+    derivp = derivpChunk1 * derivpChunk2 * derivpChunk3
+    JChunk2 = 1.6e-19 * D_n * derivn
+    JChunk3 = 1.6e-19 * D_p * derivp
+
+    J = JChunk1 + JChunk2 - JChunk3
+
+    return J
+
+
+# --- build dfJ, one row per (x,t) ---
+rowsJ = []
+for t in t_vals:
+    J_vals = J_current(x, t)
+    for xi, Ji in zip(x, J_vals):
+        rowsJ.append({"x": xi, "J": Ji, "time": t})
+dfJ = pd.DataFrame(rowsJ)
+
+
+# --- compute a y-range that will holds peaks ---
+ymax = dfJ.J.abs().max() * 1.1
+
+# --- animate J(x,t) just like n/p ---
+figJ = px.line(
+    dfJ,
+    x="x",
+    y="J",
+    animation_frame="time",
+    range_x=[0, L],
+    range_y=[-ymax, ymax],  # or [0, ymax] if J never goes negative
+    labels={"x": "Distance (m)", "J": "Current (A/m²)"},
+)
+
+st.title("J(x,t) Animation")
+st.plotly_chart(figJ, use_container_width=True)
+# TRANSIENT TIME RESPONSE SIGNAL
+
 # fig
+st.title("n(x,t) and p(x,t) Animation")
 st.plotly_chart(fig, use_container_width=True)
+# st.plotly_chart(figJ, use_container_width=True)
 
 # 4) Add dataframe to enjoy the data
+st.title("n(x,t) and p(x,t) DataFrame")
 st.dataframe(df, use_container_width=True)
+st.title("J(x,t) DataFrame")
+st.dataframe(dfJ, use_container_width=True)
 # st.table(df)
