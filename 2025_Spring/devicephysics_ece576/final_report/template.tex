@@ -1,0 +1,860 @@
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. IEEE's font choices can trigger bugs that do  ***
+% *** not appear when using other class files.                            ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE!
+%% User assumes all risk.
+%% In no event shall IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%
+%% File list of work: IEEEtran.cls, New_IEEEtran_how-to.pdf, bare_jrnl_new_sample4.tex,
+%%*************************************************************************
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+% Note that the a4paper option is mainly intended so that authors in
+% countries using A4 can easily print to A4 and see how their papers will
+% look in print - the typesetting of the document will not typically be
+% affected with changes in paper size (but the bottom and side margins will).
+% Use the testflow package mentioned above to verify correct handling of
+% both paper sizes by the user's LaTeX system.
+%
+% Also note that the "draftcls" or "draftclsnofoot", not "draft", option
+% should be used if it is desired that the figures are to be displayed in
+% draft mode.
+%
+\documentclass[
+  journal,
+]{IEEEtran}%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[journal]{../sty/IEEEtran}
+\usepackage[cmex10]{amsmath}
+\usepackage{amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+%\usepackage{lmodern}
+\ifPDFTeX\else
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\parindent    1.0em
+\ifCLASSOPTIONcompsoc
+  \parindent    1.5em
+\fi
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage[version=3]{mhchem}
+\usepackage{orcidlink}
+\usepackage{float}
+\floatplacement{table}{htb}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Fig.}
+\else
+  \newcommand\figurename{Fig.}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage[skip=2pt,font=footnotesize]{caption}
+%\captionsetup{format=myformat}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Evolution of Charge Carriers Through Time and Space},
+  pdfauthor={Patrick Finnerty; Trinity Watson; Ralph Mora},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+% Do not put math or special symbols in the title.
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+% Do not put math or special symbols in the title.
+\title{Evolution of Charge Carriers Through Time and Space}
+
+\author{
+Patrick Finnerty\orcidlink{0009-0003-4645-6732},~Trinity Watson
+and~Ralph Mora%
+\thanks{Patrick Finnerty is with Electrical and Computer
+Engineering, University of New Mexico, Albuquerque, NM, 87106 United
+States of America%
+}
+%by-author.affiliations
+\thanks{Corresponding author: patf@unm.edu}
+\thanks{Trinity Watson is with Electrical and Computer and
+Engineering, University of New Mexico, Albuquerque, NM, 87106 United
+States of America%
+}
+%by-author.affiliations
+\thanks{Ralph Mora is with Electrical and Computer
+Engineering, University of New Mexico, Albuquerque, NM, 87106 United
+States of America%
+}
+%by-author.affiliations
+}
+\begin{document}
+
+% The paper headers
+\markboth{Sharma Journal of Nature Science IEEE, May 2025}{}
+
+% use for special paper notices
+
+% make the title area
+\maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract or keywords.
+\begin{abstract}
+The physics underlying semiconductor devices must be understood to
+effectively design new devices and experiments. While equations can be
+provided to model phenomena such as propagation of carriers through a
+channel or device, or the evolution of current in the device with time,
+conducting the derivation of these equations from parent equations and
+phenomena may be highly informative. In this report, we present the
+derivation of equations for carrier concentrations as a function of time
+and space within a device; these equations are then used to model the
+behavior of charge carriers and the resulting current within a device.
+An app has been developed that allows for visualization and interaction
+with these equations. The app is available at
+\url{https://pat-trinity-ralph-carrier-propagation-devicephysics-unm.streamlit.app/}.
+\end{abstract}
+% Note that keywords are not normally used for peerreview papers.
+
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+% \IEEEpeerreviewmaketitle
+
+
+\section{Introduction}\label{sec-intro}
+
+\IEEEPARstart{T}{he} current passing through a device, usually within a
+channel, controlled by a gate voltage within a\\
+MOSFET (Metal-Oxide-Semiconductor Field-Effect Transistor) is a critical
+parameter. The current is influenced by many factors, but principally
+arises from the movement of charge carriers, electrons and holes.
+Understanding and modeling this movement of carriers and thereby the
+current is necessary to informatively design a device. We therefore set
+out to derive the relevant equations.
+
+\section{Derivation of Carrier Concentration and
+Current}\label{sec-derivation}
+
+\subsection{Green's Functions and Fourier
+Transform}\label{greens-functions-and-fourier-transform}
+
+We start with Green's functions for the partial derivatives of electrons
+and holes as functions of space and time, \(n(x,t)\) and \(p(x,t)\),
+respectively:
+
+For electrons:
+
+\[
+\begin{multlined}
+\frac{\partial^2G_n(x,t)}{\partial x^{2}}
+- \Bigl(\frac{\nu_n}{D_n}\Bigr)\frac{\partial G_n(x,t)}{\partial x}
+\\
++ \frac{1}{D_n}\frac{\partial G_n(x,t)}{\partial t}
++ \frac{1}{\tau_n D_n}\,G_n(x,t)
+= \frac{1}{D_n}\,\delta(x - x_0)\,\delta(t - t_0)
+\end{multlined}
+\]
+
+For holes: \[
+\begin{multlined}
+\frac{\partial^2G_p(x,t)}{\partial x^{2}}
+- \Bigl(\frac{\nu_p}{D_p}\Bigr)\frac{\partial G_p(x,t)}{\partial x}
+\\
++ \frac{1}{D_p}\frac{\partial G_p(x,t)}{\partial t}
++ \frac{1}{\tau_p D_p}\,G_p(x,t)
+= \frac{1}{D_p}\,\delta(x - x_0)\,\delta(t - t_0)
+\end{multlined}
+\]
+
+The generation terms, \(G_n\) and \(G_p\), for electrons and holes
+respectively: \[
+G_n = G_p = \left( \frac{P_0 N}{h \nu} \right)
+e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}
+\]
+
+Were input to the above Green's equations, resulting in the equations
+below. For electrons: \[
+\begin{multlined}
+\frac{\partial\Bigl(\tfrac{P_0 N}{h\nu}
+  e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)}{\partial x^2}
+- \Bigl(\tfrac{\nu_n}{D_n}\Bigr)\,
+  \frac{\partial\Bigl(\tfrac{P_0 N}{h\nu}
+  e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)}{\partial x}
+\\
++ \frac{1}{D_n}\,
+  \frac{\partial\Bigl(\tfrac{P_0 N}{h\nu}
+  e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)}{\partial t}
++ \frac{1}{\tau_n D_n}\,
+  \Bigl(\tfrac{P_0 N}{h\nu}
+  e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)
+\\
+= \frac{1}{D_n}\,\delta(x - x_0)\,\delta(t - t_0)
+\end{multlined}
+\]
+
+For holes: \[
+\begin{multlined}
+\frac{\partial^2\Bigl(\frac{P_0 N}{h\nu}
+\,e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+\,e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)}%
+{\partial x^2}
+- \Bigl(\tfrac{\nu_{n}}{D_{n}}\Bigr)\,
+  \frac{\partial\Bigl(\frac{P_0 N}{h\nu}
+  \,e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  \,e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)}%
+  {\partial x}
+\\
++ \frac{1}{D_{n}}\,
+  \frac{\partial\Bigl(\frac{P_0 N}{h\nu}
+  \,e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  \,e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)}%
+  {\partial t}
+\\
++ \frac{1}{\tau_{n}D_{n}}
+  \Bigl(\frac{P_0 N}{h\nu}
+  \,e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+  \,e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\Bigr)
+\\
+= \frac{1}{D_{n}}\;\delta(x - x_{0})\,\delta(t - t_{0})
+\end{multlined}
+\]
+
+We can define constants: \[
+A = e^{-\frac{(t - t_0)^2}{\delta(t - t_0)}}\\
+B =   e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}\\
+C = {\frac{P_0 N}{h \nu}}
+\]
+
+Rewriting the equation, initially focusing on the electron equation: \[
+\begin{multlined}
+AC \frac{\partial^(
+e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+)}{\partial x^{2}}-\left( \frac{\nu_{n}}{D_{n}}AC\right)\frac{\partial(
+e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+)}{\partial x}
+\\
++
+\frac{1}{D_{n}} AC\frac{\partial (
+e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+)}{\partial t}
+\\
++
+\frac{1}{\tau_{n}D_{n}}AC
+e^{-\frac{(x - x_0)^2}{\delta(x - x_0)}}
+)
+\\
+=\frac{1}{Dn}\delta(x-x_{0})\delta(t-t_{0})
+\end{multlined}
+\]
+
+Breaking the equation into portions, we take advantage of the linearity
+property of the Fourier transform.
+
+\subsection{Fourier Transform}\label{fourier-transform}
+
+\[
+\mathcal{F} \left[ C \cdot A \cdot \frac{\partial^2 B}{\partial x^2} \right]
+\]
+
+We can then bring out the constants A and C, and take the fourier
+transform of B using the law of exponents.
+
+\[
+C \cdot A \cdot \mathcal{F} \left[ \frac{\partial^2}{\partial x^2}
+\left( e^{-\frac{2(x - x_0)}{\delta(x - x_0)}} \right) \right]
+\]
+
+Defining a new constant, expanding the exponent and then taking the
+Fourier transform of the first section yields:
+
+\[
+\begin{multlined}
+d = {\frac{2}{\delta(x-x_0)}}
+\\
+C \cdot A \cdot e^{dx_0} \cdot \mathcal{F} \left[ \frac{\partial^2}{\partial x^2}
+\left( e^{-dx} \right) \right]
+\\
+C \cdot A \cdot e^{dx_0} \cdot [(jw)^2 \cdot \frac{2d}{d^2+\omega^2}]
+\end{multlined}
+\]
+
+Continuing the Fourier for the following sections and bringing them all
+together:
+
+\[
+\begin{multlined}
+C \cdot \left( \frac{2d}{d^2 + \omega^2} \right) \cdot 
+\\
+A \cdot
+\left(
+e^{d x_0} (j \omega)^2
+- \frac{v_n}{D_n} (j \omega)
++ \frac{1}{D_n} \frac{\partial}{\partial t}
++ \frac{1}{\tau_n D_n}
+\right)
+\\
+= \frac{1}{D_n} e^{-j \omega x_0} \delta(t - t_0)
+\end{multlined}
+\]
+
+\subsection{Laplace Transform}\label{laplace-transform}
+
+Once the Fourier Transform was obtained for both equations, the Laplace
+Transform was taken to get \(G_n(k,s)\) and \(G_p(k,s)\).
+
+\[
+G_n(j \omega, s) = \frac{
+\frac{1}{D_n*\sqrt{2\pi}} e^{-j \omega x_0}}{
+ \left(e^{d x_0} (j \omega)^2
+- \frac{v_n}{D_n} (j \omega)
++ \frac{s}{D_n}
++ \frac{1}{\tau_n D_n}
+\right)}
+\]
+
+\[
+G_p(j \omega, s) = \frac{
+\frac{1}{D_p} e^{-j \omega x_0}}{
+\left(e^{d x_0} (j \omega)^2
+- \frac{v_p}{D_p} (j \omega)
++ \frac{s}{D_p}
++ \frac{1}{\tau_p D_p}
+\right)}
+\]
+
+The following expressions can be simplified by multiplying the
+denominator by \(D_n\) and \(D_p\) respectivly as well as
+\(\frac{1}{\sqrt{2\pi}}\)
+
+\[
+G_n(k, s) = \frac{1}{\sqrt{2\pi}} * \frac{
+e^{-j \omega x_0}}{
+\cdot \left(D_n(k)^2
+- v_n (k)
++ s
++ \frac{1}{\tau_n}
+\right)}
+\]
+
+\[
+G_p(k, s) = \frac{1}{\sqrt{2\pi}} * \frac{
+e^{-j \omega x_0}}{
+\cdot \left(D_p(k)^2
+- v_n (k)
++ s
++ \frac{1}{\tau_n}
+\right)}
+\]
+
+\subsection{Apply Inverse Laplace
+Transform}\label{apply-inverse-laplace-transform}
+
+After applying the Fourier and Laplace transforms, we now have the
+following expressions: \[
+% \begin{align}
+G_n(k,s) = \frac{1}{\sqrt{2\pi}}\;\frac{e^{ikx_0}}{D_n k^2 - i k \nu_n + \frac{1}{\tau_n} + s} \\[1ex]
+\] \[
+G_p(k,s) = \frac{1}{\sqrt{2\pi}}\;\frac{e^{ikx_0}}{D_p k^2 + i k \nu_p + \frac{1}{\tau_p} + s}
+% \end{align}
+\]
+
+These equations are valid but we desire to understand and model the
+charge carrier and current behavior within the real time and space
+domains. Therefore, we first convert back to the time domain by applying
+the inverse Laplace transform.
+
+Define: \[
+a \;=\; D_p\,k^2 \;+\; i\,k\,V_p \;+\; \frac1{\tau_p}\,
+\]
+
+Since,
+
+\[
+\mathcal{L}^{-1}\Bigl\{\frac1{s+a}\Bigr\}(t)=e^{-a t}\,
+\]
+
+The inverse Laplace transform of \(G_p(k,s)\) is given by:
+
+\[
+\begin{multlined}
+\mathcal{L}^{-1}\{G_p(k,s)\}(t)
+=\frac{1}{\sqrt{2\pi}}\;e^{ikx_0}\;\mathcal{L}^{-1}\Bigl\{\frac1{s+a}\Bigr\}(t)
+\\
+=\frac{1}{\sqrt{2\pi}}\,e^{ikx_0}\,e^{-a\,t}\,
+\end{multlined}
+\]
+
+\subsection{Inverse Fourier Transform}\label{inverse-fourier-transform}
+
+And now to convert back to space domain, we apply the inverse Fourier
+transform. We begin by defining \(\alpha(t)\) to allow us to match the
+form of the inverse Fourier transform:
+
+Define: \[
+\alpha(t) = \frac{1}{2\pi} \frac{e^{-t/\tau_p}}{\sqrt{2\pi}}
+\]
+
+Then, \[
+\begin{multlined}
+g(x,t)
+= \alpha(t)
+  \int_{-\infty}^{\infty}
+    \exp\bigl[i k x_0 - D_p\,k^2\,t - i\,k\,\nu_p\,t\bigr]
+    e^{i k x}\,dk
+\\
+= \alpha(t)
+  \int_{-\infty}^{\infty}
+    \exp\bigl[-D_p\,t\,k^2 + k\,i(\nu_p\,t - x - x_0)\bigr]
+    \,dk
+\end{multlined}
+\]
+
+To complete the square in the exponent, define the following constants
+\textbf{which are not the same as the previous definitions}: \[
+A = D_p\,t
+\]
+
+\[
+B = i(\nu_p\,t - x - x_0)
+\]
+
+\[
+C = 0
+\]
+
+so that\\
+\[
+-D_p\,t\,k^2 + k\,i(\nu_p\,t - x - x_0)
+= -\bigl(A\,k^2 + B\,k + C\bigr)
+\]
+
+Plugging into our expression above, we achieve:
+
+\[
+g(x,t)
+= \alpha(t)\,
+  \int_{-\infty}^{\infty}
+    \exp\!\bigl[-\bigl(A\,k^2 + B\,k\bigr)\bigr]\,
+  dk
+\]
+
+Where,\\
+\[
+\alpha(t) = \frac{e^{-t/\tau_p}}{\sqrt{2\pi}},\quad
+A = D_p\,t,\quad
+B = i(\nu_p\,t - x - x_0)
+\]
+
+The definition of ``completing the square'', or standard
+Gaussian‐integral result is:
+
+\[
+\int_{-\infty}^{\infty}
+e^{-\bigl(a x^2 + b x + c\bigr)}\,dx
+\;=\;
+\sqrt{\frac{\pi}{a}}\;
+\exp\!\Bigl(\frac{b^2}{4a}-c\Bigr)
+\quad 
+% \Re(a)>0
+\]
+
+Plugging in all expressions for \(A B, C\) and \(\alpha(t)\) and
+expanding results in:
+
+\[
+G_n(x,t)
+= \frac{1}{2\pi\sqrt{2\,D_n\,t}}
+  \exp\!\Bigl(-\frac{(x - x_0 - \nu_n\,t)^{2} + \tfrac{t}{\tau_n}}{4\,D_n\,t}\Bigr),
+\]
+
+\[
+G_p(x,t)
+= \frac{1}{2\pi\sqrt{2\,D_p\,t}}
+  \exp\!\Bigl(-\frac{(x - x_0 + \nu_p\,t)^{2} + \tfrac{t}{\tau_p}}{4\,D_p\,t}\Bigr)
+\]
+
+\subsection*{Final Integration}\label{final-integration}
+\addcontentsline{toc}{subsection}{Final Integration}
+
+In this step, we must integrate the generation terms, the result of the
+above, with the Source term, defined the same for holes and electrons
+as: \[
+S_p = S_n = \frac{P_0\,\eta}{h\nu}
+\exp\!\Bigl[-\frac{(x - x_0)^2}{\sigma_x^2}\Bigr]
+\exp\!\Bigl[-\frac{(t - t_0)^2}{\sigma_t^2}\Bigr]
+\]
+
+In fact, the delta function results in the exponents in the Source
+dropping out. This will be seen shortly.
+
+From the above, we can reorganize the generation terms as: \[
+G_n(x,t)
+= e^{-t/\tau_n}
+\sqrt{\frac{1}{4\pi\,D_n\,t}}
+\exp\!\Bigl[-\,\frac{\bigl(x - x_0 - \nu_n\,t\bigr)^2}{4\,D_n\,t}\Bigr],
+\]
+
+\[
+G_p(x,t)
+= e^{-t/\tau_p}
+\sqrt{\frac{1}{4\pi\,D_p\,t}}
+\exp\!\Bigl[-\,\frac{\bigl(x - x_0 + \nu_p\,t\bigr)^2}{4\,D_p\,t}\Bigr]
+\]
+
+The relevant delta function property is: \[
+\int_{-\infty}^{\infty} f(x)\,\delta(x - a)\,dx = f(a)
+\]
+
+Starting with the integration of \(G_n\), which results in our
+expression for electron concentration as a function of space and time
+\(n(x,t)\):
+
+\[
+n(x,t) \;=\; \int G{n}(x,t)\,S_{n}\,dx \;=\;\dots
+\]
+
+Within the integral, we have:
+
+\[
+\begin{multlined}
+G_n(x,t)\,S_n(x,t)
+= e^{-t/\tau_n}\,\sqrt{\frac{1}{4\pi\,D_n\,t}}\;\frac{P_0\,\eta}{h\nu}
+\;
+\\
+\exp\!\Bigl[-\frac{(x - x_0 - \nu_n\,t)^2}{4\,D_n\,t}\Bigr]
+\;
+\\
+\exp\!\Bigl[-\frac{(x - x_0)^2}{\sigma_x^2}\Bigr]
+\;\exp\!\Bigl[-\frac{(t - t_0)^2}{\sigma_t^2}\Bigr]
+\end{multlined}
+\]
+
+However, latter two exponents drop out, because of the delta function
+property; if one inputs \(x_0\) and \(t_0\), these terms both become
+\(exp(0)\) which goes to \(1\).
+
+Therefore, the product of \(G_n(x,t)\) and \(S_n(x,t)\) becomes: \[
+G_n(x,t)\,S_n(x,t)
+= e^{-t/\tau_n}\,\sqrt{\frac{1}{4\pi\,D_n\,t}}\;\frac{P_0\,\eta}{h\nu}
+\;\exp\!\Bigl[-\frac{(x - x_0 - \nu_n\,t)^2}{4\,D_n\,t}\Bigr]
+\]
+
+The overall integral becomes:
+
+\[
+\begin{multlined}
+n(x,t)
+= \int G_n(x,t)\,S_n(x,t)\,dx
+\\
+= \int
+e^{-t/\tau_n}\,\sqrt{\frac{1}{4\pi\,D_n\,t}}\;\frac{P_0\,\eta}{h\nu}
+\;\exp\!\Bigl[-\frac{((x - x_0) - \nu_n\,t)^2}{4\,D_n\,t}\Bigr]
+\,dx
+\end{multlined}
+\]
+
+Define: \[
+\alpha \;=\; e^{-t/\tau_n}\,
+\sqrt{\frac{1}{4\pi\,D_n\,t}}\;\frac{P_0\,\eta}{h\nu}\,
+\]
+
+Then the carrier density can be written as: \[
+\begin{multlined}
+n(x,t)
+= \int_{x}^{\infty}G_n(x,t)\,S_n(x)\,dx
+\\
+= \alpha
+\int_{x}^{\infty}
+\exp\!\Bigl[-\frac{((x - x_0) - \nu_n t)^2}{4\,D_n\,t}\Bigr]
+\,dx\,
+\end{multlined}
+\]
+
+Where \(x\) and \(\infty\) are defined as the bounds of a carrier;
+i.e.~one can calculate the concentration from \(x_0\) up to infinitely
+far from the \(x_0\) location.
+
+With this result, we now apply the power of a power rule, yielding:
+
+Then the carrier density can be written as \[
+= \alpha
+\int_{x}^{\infty}
+\exp\!\Bigl[-\frac{2((x - x_0)- \nu_n t)}{4\,D_n\,t}\Bigr]
+\,dx\,
+\]
+
+We can factor out the \(\nu_n\ t\) term, finally giving:
+
+\[
+= \alpha \exp(\frac{2\nu t}{4D_{n}t})
+\int_{x}^{\infty}
+\exp\!\Bigl[-\frac{2(x - x_0)}{4\,D_n\,t}\Bigr]
+\,dx\,
+\]
+
+This integral can be solved with u-substitution. Where \[
+u = \frac{-2(x-x_{0})}{4D_{n}t}
+\] and \[
+du = -\frac{2}{4D_{n}t}dx
+\]
+
+And bounds are appropriately shifted, and defining constants,
+\textbf{again with different values than the previous definitions}:
+
+\[
+u(\infty) \;=\; -\frac{2(\infty - x_0)}{4D_n t}
+\;\Longrightarrow\;
+-\infty \;=\; B
+\]
+
+\[
+u(x) \;=\; -\frac{2(x - x_0)}{4D_n t}
+\;=\; A
+\]
+
+\[
+= \alpha \,
+  \exp\!\Bigl(\frac{2\,\nu_n\,t}{4\,D_n\,t}\Bigr)
+  \int_{A}^{B} e^{\,u}\,du
+\]
+
+\section{Results}\label{results}
+
+\subsection{\texorpdfstring{Carrier Concentrations \(n(x,t)\) and
+\(p(x,t)\)}{Carrier Concentrations n(x,t) and p(x,t)}}\label{carrier-concentrations-nxt-and-pxt}
+
+Evaluating this integral and applying the power of a power rule again,
+we arrive at our final answer.
+
+\[
+n(x,t)
+= \frac{P_{0}\,\eta}{h\nu}
+  \;e^{-t/\tau_{n}}
+  \;\sqrt{\frac{1}{4\pi\,D_{n}\,t}}
+  \;\exp\!\Bigl[-\frac{\bigl((x - x_{0}) + \nu_{n}\,t\bigr)^{2}}{4\,D_{n}\,t}\Bigr]
+\]
+
+Similarly for holes:
+
+\[
+p(x,t)
+= \frac{P_{0}\,\eta}{h\nu}
+  \;e^{-t/\tau_{p}}
+  \;\sqrt{\frac{1}{4\pi\,D_{p}\,t}}
+  \;\exp\!\Bigl[-\frac{\bigl((x - x_{0}) - \nu_{p}\,t\bigr)^{2}}{4\,D_{p}\,t}\Bigr]
+\]
+
+\subsection{Partial Derivatives of (n(x,t)) and
+(p(x,t))}\label{partial-derivatives-of-nxt-and-pxt}
+
+After a \textbf{trivial} derivation involving the chain rule in (x), we
+find:
+
+\[
+\frac{\partial n(x,t)}{\partial x}
+= -\frac{P_{0}\,\eta}{h\nu}
+  \;e^{-t/\tau_{n}}
+  \;\sqrt{\frac{1}{4\pi\,D_{n}\,t}}
+  \;\frac{x - x_{0} + \nu_{n}\,t}{2\,D_{n}\,t}
+  \;\exp\!\Bigl[-\frac{\bigl((x - x_{0}) + \nu_{n}\,t\bigr)^{2}}{4\,D_{n}\,t}\Bigr]
+\]
+
+Similarly for holes,
+
+\[
+\frac{\partial p(x,t)}{\partial x}
+= -\frac{P_{0}\,\eta}{h\nu}
+  \;e^{-t/\tau_{p}}
+  \;\sqrt{\frac{1}{4\pi\,D_{p}\,t}}
+  \;\frac{x - x_{0} - \nu_{p}\,t}{2\,D_{p}\,t}
+  \;\exp\!\Bigl[-\frac{\bigl((x - x_{0}) - \nu_{p}\,t\bigr)^{2}}{4\,D_{p}\,t}\Bigr]
+\]
+
+We developed a Python-based web-app that plots these carrier
+concentrations and current, as dependent on their concentrations. The
+user can define many relevant parameters such as carrier mobilities or
+the strength of an applied electric field and observe these parameters'
+influence on carrier propagation and current. The app may be found at
+\url{https://pat-trinity-ralph-carrier-propagation-devicephysics-unm.streamlit.app/}.
+
+\section{Conclusion}\label{conclusion}
+
+We derived expressions for charge carriers concentrations, beginning
+from Green's functions and applying Fourier and Laplace transforms. The
+derived equations are used in a web app modeling these phenomena. The
+web app is interactive and visualizes the effect of many parameters on
+carrier concentrations and current. Overall, we find that although
+lengthy, the derivation was highly informative; and that the model and
+app developed are highly extensible and informative in demonstrating the
+physics discussed in this class.
+
+
+% Can use something like this to put references on a page
+% by themselves when using endfloat and the captionsoff option.
+\ifCLASSOPTIONcaptionsoff
+  \newpage
+\fi
+
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% Uncomment when use biblatex with style=ieee
+%\renewcommand{\bibfont}{\footnotesize} % for IEEE bibfont size
+
+\pagebreak[3]
+% that's all folks
+\end{document}
+
